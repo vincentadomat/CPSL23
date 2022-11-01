@@ -6,7 +6,7 @@ solver = pl.COIN_CMD(path=path_to_cbc, keepFiles=False, msg=False)
 
 def solve(scenario_list):
     # Handling of scenario data
-    set_o, set_m, set_t, set_c, b, k, h, d, w, f, p, g, u, e = scenario_list
+    set_o, set_m, set_t, set_c, b, k, h, d, w, f, p, g, e, timestamps = scenario_list
 
     # Initialize problem and declare problem type
     lp_problem = pl.LpProblem('energy_opt_prod_scheduling', pl.LpMaximize)
@@ -21,7 +21,7 @@ def solve(scenario_list):
                   for o in set_o}
 
     # Objective function
-    lp_problem += pl.lpSum((e[o] - b[o][m] * k[t] + d[o][c] * w[c] + p[m]) * decision_x[o][m][t]
+    lp_problem += pl.lpSum((e[o] - b[o][m] * k[t] - d[o][c] * w[c] - p[m]) * decision_x[o][m][t]
                            for o in set_o
                            for m in set_m
                            for c in set_c
@@ -65,9 +65,12 @@ def solve(scenario_list):
 
     # Print solution's pretty table
     table = PrettyTable()
-    names = ['machine']
+    names = ['period']
     names.extend(set_t)
     table.field_names = names
+    table.add_row(['date'] + list(stamp.split('-')[0] for stamp in timestamps))
+    table.add_row(['time'] + list(stamp.split('-')[1] for stamp in timestamps))
+    table.add_row(['energy cost'] + list(k[t] for t in set_t))
     for m in set_m:
         row_list = [m]
         for t in set_t:
@@ -91,4 +94,4 @@ def solve(scenario_list):
             print('something is wrong with var %s' % (variable, ))
     """
 
-    return [table_meta, table] #, lp_problem, decision_x]
+    return [table_meta, table]

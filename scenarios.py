@@ -1,10 +1,23 @@
 import model
+import csv
+
+# Import energy cost and number of periods from CSV file
+csv_path = 'Gro_handelspreise_202201010000_202201072359.csv'
+energy_data = dict()
+with open(csv_path, newline='', encoding='utf-8-sig') as csvfile:
+    reader = csv.DictReader(csvfile, delimiter=';')
+    for counter, row in enumerate(reader):
+        t = counter + 1
+        row_date = row['Datum']
+        row_time = row['Uhrzeit']
+        row_value = row['Deutschland/Luxemburg[€/MWh]']
+        energy_data[t] = {'value': float(row_value.replace(',', '.')), 'time': '%s-%s' % (row_date, row_time)}
 
 # Declaration of sets
-set_o = ['operation_11', 'operation_12', 'operation_21', 'operation_22', '1', '2', '3', '4', '5', '6', '7']
-set_m = ['machine_1', 'machine_2']
-set_t = [1, 2, 3, 4, 5]
-set_c = ['competence_1', 'competence_2']
+set_o = list('operation %s' % (i, ) for i in range(1, 11))
+set_m = list('machine %s' % (i, ) for i in range(1, 11))
+set_t = list(energy_data.keys())
+set_c = list('competence %s' % (i, ) for i in range(1, 6))
 
 # Declaration of parameters
 # Energy demand
@@ -15,7 +28,7 @@ b = {o:
      for o in set_o}
 
 # Energy cost
-k = {t: 150 for t in set_t}
+k = {t: energy_data[t]['value'] for t in set_t}
 
 # Energy capacity
 h = {t: 100 for t in set_t}
