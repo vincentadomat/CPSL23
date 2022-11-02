@@ -1,0 +1,125 @@
+{
+    "scenario_1": {
+        "num_o": 10,
+        "num_m": 10,
+        "range_t": [
+            57,
+            65
+        ],
+        "num_c": 5,
+        "energy_demand": [
+            1,
+            25
+        ],
+        "energy_capacity": [
+            1000,
+            1000
+        ],
+        "employee_demand": [
+            1,
+            5
+        ],
+        "employee_cost": [
+            80,
+            160
+        ],
+        "employee_capacity": [
+            0,
+            20
+        ],
+        "machine_cost": [
+            80,
+            160
+        ],
+        "machine_capacity": [
+            1,
+            1
+        ],
+        "operation_revenue": [
+            2000,
+            9000
+        ]
+    },
+    "scenario_2": {
+        "num_o": 50,
+        "num_m": 20,
+        "range_t": [
+            57,
+            65
+        ],
+        "num_c": 5,
+        "energy_demand": [
+            1,
+            25
+        ],
+        "energy_capacity": [
+            1000,
+            1000
+        ],
+        "employee_demand": [
+            1,
+            5
+        ],
+        "employee_cost": [
+            80,
+            160
+        ],
+        "employee_capacity": [
+            0,
+            50
+        ],
+        "machine_cost": [
+            80,
+            160
+        ],
+        "machine_capacity": [
+            1,
+            1
+        ],
+        "operation_revenue": [
+            2000,
+            9000
+        ]
+    },
+    "scenario_3": {
+        "num_o": 100,
+        "num_m": 30,
+        "range_t": [
+            57,
+            65
+        ],
+        "num_c": 5,
+        "energy_demand": [
+            1,
+            25
+        ],
+        "energy_capacity": [
+            1000,
+            1000
+        ],
+        "employee_demand": [
+            1,
+            5
+        ],
+        "employee_cost": [
+            80,
+            160
+        ],
+        "employee_capacity": [
+            0,
+            100
+        ],
+        "machine_cost": [
+            80,
+            160
+        ],
+        "machine_capacity": [
+            1,
+            1
+        ],
+        "operation_revenue": [
+            2000,
+            9000
+        ]
+    }
+}

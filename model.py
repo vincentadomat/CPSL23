@@ -8,6 +8,12 @@ def solve(scenario_list):
     # Handling of scenario data
     set_o, set_m, set_t, set_c, b, k, h, d, w, f, p, g, e, timestamps = scenario_list
 
+    # Convert dict keys from str to int, where necessary
+    k = {int(key): value for key, value in k.items()}
+    h = {int(key): value for key, value in h.items()}
+    for c in set_c:
+        f[c] = {int(key): value for key, value in f[c].items()}
+
     # Initialize problem and declare problem type
     lp_problem = pl.LpProblem('energy_opt_prod_scheduling', pl.LpMaximize)
 
@@ -21,11 +27,11 @@ def solve(scenario_list):
                   for o in set_o}
 
     # Objective function
-    lp_problem += pl.lpSum((e[o] - b[o][m] * k[t] - d[o][c] * w[c] - p[m]) * decision_x[o][m][t]
-                           for o in set_o
-                           for m in set_m
-                           for c in set_c
-                           for t in set_t)
+    lp_problem += pl.lpSum((e[o] * decision_x[o][m][t] for o in set_o for m in set_m for t in set_t)) - \
+                  pl.lpSum((b[o][m] * k[t] * decision_x[o][m][t] for o in set_o for m in set_m for t in set_t)) - \
+                  pl.lpSum((d[o][c] * w[c] * decision_x[o][m][t]
+                            for m in set_m for o in set_o for t in set_t for c in set_c)) - \
+                  pl.lpSum((p[m] * decision_x[o][m][t] for o in set_o for m in set_m for t in set_t))
 
     # Constraint 1
     for o in set_o:
